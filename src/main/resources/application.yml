@@ -1,0 +1,98 @@
+# Spring
+spring:
+  profiles:
+    active: ${SPRING_PROFILE}
+  application:
+    name: e-verse-2.0
+  datasource:
+    database-name: ${MYSQL_DATABASE_NAME}
+    url: ${MYSQL_SERVER_URL}
+    username: ${MYSQL_USER}
+    password: ${MYSQL_PASSWORD}
+    driver-class-name: ${MYSQL_DRIVER_CLASS_NAME}
+    platform: ${MYSQL_PLATFORM}
+    hikari:
+      maximum-pool-size: 20
+      connection-timeout: 30000
+      leak-detection-threshold: 30000
+      maxLifetime: 1800000
+      idleTimeout: 600000
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+        jdbc:
+          batch_size: ${MYSQL_BATCH_SIZE}  # 엔티티를 한 번에 저장하는 개수
+        order_inserts: true  # Insert 쿼리를 모아서 처리
+        order_updates: true  # Update 쿼리를 모아서 처리
+    show-sql: false
+    hibernate:
+      ddl-auto: update
+  batch:
+    jdbc:
+      initialize-schema: always
+    job:
+      enabled: false
+    initialize-schema: always
+  messages:
+    basename: messages
+    encoding: UTF-8
+  mail:
+    host: ${JAVA_MAIL_SENDER_HOST}
+    port: ${JAVA_MAIL_SENDER_PORT}
+    username: ${JAVA_MAIL_SENDER_EMAIL}
+    password: ${JAVA_MAIL_SENDER_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          timeout: 5000
+          starttls:
+            enable: true
+  servlet:
+    multipart:
+      max-file-size: 1024MB
+      max-request-size: 1024MB
+# Server
+server:
+  port: ${SERVER_PORT}
+  error:
+    path: /error
+  servlet:
+    context-path: /atemos
+    session:
+      timeout: 1440m
+# Logger Properties
+logging:
+  level:
+    root: ${LOG_LEVEL}
+    org:
+      hibernate:
+        type:
+          descriptor:
+            sql:
+              BasicBinder: trace
+  file:
+    path: ./logs/${SPRING_PROFILE}
+# Swagger
+springdoc:
+  swagger-ui:
+    enabled: ${SWAGGER_ENABLED}
+# Security
+jwt:
+  secret: ${JWT_SECRET}
+  access-token-expiration: ${JWT_ACCESS_TOKEN_EXPIRATION}
+  refresh-token-expiration: ${JWT_REFRESH_TOKEN_EXPIRATION}
+aes-256-key: ${AES_256_KEY}
+# Custom
+front-end-server: ${FRONT_END_SERVER}
+# Payment
+payment:
+  api-call-rate: ${PAYMENT_API_CALL_RATE}
+  iot-installation-rate: ${PAYMENT_IOT_INSTALLATION_RATE}
+  storage-usage-rate-per-1gb: ${PAYMENT_STORAGE_USAGE_RATE_PER_1GB}
+  free-storage-limit-gb: ${PAYMENT_FREE_STORAGE_LIMIT_GB}
+# File
+file:
+  upload-dir: ${user.home}/e-verse-2.0/upload/
